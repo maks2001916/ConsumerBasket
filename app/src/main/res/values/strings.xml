@@ -1,3 +1,10 @@
 <resources>
     <string name="app_name">Consumer Basket</string>
+    <string name="app_name_ru">Потребительская корзина</string>
+    <string name="save">Сохранить</string>
+    <string name="update">Обновить</string>
+    <string name="delete">Удалить</string>
+    <string name="name">Название</string>
+    <string name="weight">Вес</string>
+    <string name="price">Цена</string>
 </resources>
