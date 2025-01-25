@@ -36,6 +36,7 @@
         <Button
             android:id="@+id/saveBTN"
             android:text="@string/save"
+            android:backgroundTint="@color/green"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -44,6 +45,7 @@
         <Button
             android:id="@+id/updateBTN"
             android:text="@string/update"
+            android:backgroundTint="@color/green"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -52,6 +54,7 @@
         <Button
             android:id="@+id/deleteBTN"
             android:text="@string/delete"
+            android:backgroundTint="@color/green"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
