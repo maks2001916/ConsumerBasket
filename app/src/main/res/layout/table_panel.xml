@@ -12,6 +12,7 @@
         <TableRow>
 
             <TextView
+                android:id="@+id/productNameTV"
                 android:text="@string/name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -19,6 +20,7 @@
                 />
 
             <EditText
+                android:id="@+id/productNameET"
                 android:layout_width="240dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="20dp"
@@ -28,6 +30,7 @@
         <TableRow>
 
             <TextView
+                android:id="@+id/productWeightTV"
                 android:text="@string/weight"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -35,6 +38,7 @@
                 />
 
             <EditText
+                android:id="@+id/productWeightET"
                 android:layout_width="240dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="20dp"
@@ -43,6 +47,7 @@
         <TableRow>
 
             <TextView
+                android:id="@+id/productPriceTV"
                 android:text="@string/price"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -50,6 +55,7 @@
                 />
 
             <EditText
+                android:id="@+id/productPriceET"
                 android:layout_width="240dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="20dp"

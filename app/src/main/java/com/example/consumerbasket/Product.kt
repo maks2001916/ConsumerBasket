@@ -1,8 +1,8 @@
 package com.example.consumerbasket
 
 class Product(
-    var productId: Int,
-    var name: String,
-    var weight: Int,
-    var price: Int
+    val productId: Int,
+    val name: String,
+    val weight: Int,
+    val price: Int
 )
