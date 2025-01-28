@@ -9,4 +9,7 @@
     <string name="price">Цена</string>
     <string name="exit">Выход</string>
     <string name="not_all_fields_are_filled_in">Не все поля заполнены</string>
+    <string name="enter_product_name">Введите название продукта</string>
+    <string name="enter_weight">Введите вес</string>
+    <string name="enter_price">Введите цену</string>
 </resources>

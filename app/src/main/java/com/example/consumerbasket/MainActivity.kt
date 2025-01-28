@@ -9,6 +9,7 @@ import android.widget.ListView
 import android.widget.Toast
 import androidx.appcompat.widget.Toolbar
 import androidx.activity.enableEdgeToEdge
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 
 class MainActivity : AppCompatActivity() {
@@ -61,15 +62,7 @@ class MainActivity : AppCompatActivity() {
     override fun onResume() {
         super.onResume()
         updateBTN.setOnClickListener {
-            if (checkFieldsIsNotEmpty()) {
-                val newName = productNameET.text.toString()
-                val newWeight = productWeightET.text.toString().toInt()
-                val newPrice = productPriceET.text.toString().toInt()
-                product = Product(name = newName, weight =  newWeight, price =  newPrice)
-                db.updateProduct(product!!)
-            } else {
-                printMessageEmptyFields()
-            }
+            updateRecord()
         }
 
         deleteBTN.setOnClickListener {
@@ -83,6 +76,23 @@ class MainActivity : AppCompatActivity() {
             } else {
                 printMessageEmptyFields()
             }
+        }
+    }
+
+    private fun updateRecord() {
+        if (checkFieldsIsNotEmpty()) {
+
+            val dialogBuilder = AlertDialog.Builder(this)
+            val inflater = this.layoutInflater
+            val dialogView = inflater.inflate(R.layout.)
+
+            val newName = productNameET.text.toString()
+            val newWeight = productWeightET.text.toString().toInt()
+            val newPrice = productPriceET.text.toString().toInt()
+            product = Product(name = newName, weight =  newWeight, price =  newPrice)
+            db.updateProduct(product!!)
+        } else {
+            printMessageEmptyFields()
         }
     }
 
