@@ -86,6 +86,12 @@ class DBHelper(context: Context):
         db.close()
     }
 
+    fun deleteProductByName(productName: String): Boolean {
+        val db = this.writableDatabase
+        val rowsDeleted = db.delete(TABLE_NAME, "$KEY_NAME=?", arrayOf(productName))
+        db.close()
+        return rowsDeleted > 0 // Возвращает true, если хотя бы одна запись была удалена
+    }
 
     fun deleteProduct(product: Product) {
         val db = this.writableDatabase

@@ -12,4 +12,11 @@
     <string name="enter_product_name">Введите название продукта</string>
     <string name="enter_weight">Введите вес</string>
     <string name="enter_price">Введите цену</string>
+    <string name="update_record">Обновить запись</string>
+    <string name="delete_record">Удалить запись</string>
+    <string name="enter_details_below">Введите данные ниже</string>
+    <string name="the_record_has_been_updated">Запись обновлена</string>
+    <string name="cancel">Отмена</string>
+    <string name="the_entry_was_added_successfully">Запись успешно добавлена</string>
+    <string name="no_product_with_that_name_was_found">Продукт с таким именем не найден</string>
 </resources>

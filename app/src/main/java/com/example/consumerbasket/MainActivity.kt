@@ -61,39 +61,65 @@ class MainActivity : AppCompatActivity() {
 
     override fun onResume() {
         super.onResume()
-        updateBTN.setOnClickListener {
-            updateRecord()
-        }
-
-        deleteBTN.setOnClickListener {
-            if (checkFieldsIsNotEmpty()) {
-
-                val newName = productNameET.text.toString()
-                val newWeight = productWeightET.text.toString().toInt()
-                val newPrice = productPriceET.text.toString().toInt()
-                product = Product(name = newName, weight =  newWeight, price =  newPrice)
-                db.deleteProduct(product!!)
-            } else {
-                printMessageEmptyFields()
-            }
-        }
+        updateBTN.setOnClickListener { updateRecord() }
+        deleteBTN.setOnClickListener { deleteRecord() }
     }
 
     private fun updateRecord() {
-        if (checkFieldsIsNotEmpty()) {
+        val dialogBuilder = AlertDialog.Builder(this)
+        val inflater = this.layoutInflater
+        val dialogView = inflater.inflate(R.layout.update_dialog, null)
+        dialogBuilder.setView(dialogView)
+        val editName = dialogView.findViewById<EditText>(R.id.editProductNameET)
+        val editWeight = dialogView.findViewById<EditText>(R.id.editProductWeightET)
+        val editPrice = dialogView.findViewById<EditText>(R.id.editProductPriceET)
 
-            val dialogBuilder = AlertDialog.Builder(this)
-            val inflater = this.layoutInflater
-            val dialogView = inflater.inflate(R.layout.)
-
-            val newName = productNameET.text.toString()
-            val newWeight = productWeightET.text.toString().toInt()
-            val newPrice = productPriceET.text.toString().toInt()
-            product = Product(name = newName, weight =  newWeight, price =  newPrice)
+        dialogBuilder.setTitle(getString(R.string.update_record))
+        dialogBuilder.setMessage(getString(R.string.enter_details_below))
+        dialogBuilder.setPositiveButton(getString(R.string.update)) { _,_ ->
+            val updateName = editName.text.toString()
+            val updateWeight = editWeight.text.toString()
+            val updatePrice = editPrice.text.toString()
+            if (updateName.trim() != "" &&
+                updateWeight.trim() != "" &&
+                updatePrice.trim() != "")
+                product = Product(
+                    name = updateName,
+                    weight =  Integer.parseInt(updateWeight),
+                    price =  Integer.parseInt(updatePrice))
             db.updateProduct(product!!)
-        } else {
-            printMessageEmptyFields()
+            viewDataAdapter()
+            Toast.makeText(this, getString(R.string.the_record_has_been_updated), Toast.LENGTH_LONG).show()
         }
+        dialogBuilder.setNegativeButton(getString(R.string.cancel)) { dialog, which -> }
+        dialogBuilder.create().show()
+    }
+
+    private fun deleteRecord() {
+        val dialogBuilder = AlertDialog.Builder(this)
+        val inflater = this.layoutInflater
+        val dialogView = inflater.inflate(R.layout.delete_dialog, null)
+        dialogBuilder.setView(dialogView)
+
+        val chooseDeleteName = dialogView.findViewById<EditText>(R.id.deleteProductET)
+        dialogBuilder.setTitle(getString(R.string.delete_record))
+        dialogBuilder.setMessage(getString(R.string.enter_details_below))
+        dialogBuilder.setPositiveButton(getString(R.string.delete)) { _,_ ->
+            if (chooseDeleteName.text.trim() != "") {
+                val isDeleted = db.deleteProductByName(chooseDeleteName.text.toString())
+                if (isDeleted) {
+                    Toast.makeText(this,
+                        getString(R.string.the_entry_was_added_successfully), Toast.LENGTH_LONG).show()
+                } else {
+                    Toast.makeText(this,
+                        getString(R.string.no_product_with_that_name_was_found), Toast.LENGTH_LONG).show()
+                }
+                viewDataAdapter()
+            }
+        }
+        dialogBuilder.setNegativeButton(getString(R.string.cancel)) { dialog, which -> }
+        dialogBuilder.create().show()
+
     }
 
     private fun checkFieldsIsNotEmpty(): Boolean {
