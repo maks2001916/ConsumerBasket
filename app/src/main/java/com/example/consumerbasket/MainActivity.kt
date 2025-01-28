@@ -14,7 +14,6 @@ import androidx.appcompat.app.AppCompatActivity
 class MainActivity : AppCompatActivity() {
 
     private var db = DBHelper(this)
-    private var id = 1
 
     private lateinit var toolbar: Toolbar
     private lateinit var productNameET: EditText
@@ -25,6 +24,10 @@ class MainActivity : AppCompatActivity() {
     private lateinit var updateBTN: Button
     private lateinit var deleteBTN: Button
 
+    private var product: Product? = null
+    private var products: MutableList<Product> = mutableListOf()
+    private var listAdapter: MyListAdapter? = null
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
@@ -33,34 +36,80 @@ class MainActivity : AppCompatActivity() {
         init()
 
         saveBTN.setOnClickListener {
-            val newName = productNameET.text.toString()
-            val newWeight = productWeightET.text.toString().toInt()
-            val newPrice = productPriceET.text.toString().toInt()
-            val newProduct = Product(id, newName, newWeight, newPrice)
-            db.addProduct(newProduct)
-            Toast.makeText(this, "$newName, $newWeight и $newPrice добавлены в базу данных", Toast.LENGTH_LONG).show()
-            productNameET.text.clear()
-            productWeightET.text.clear()
-            productPriceET.text.clear()
+            if (checkFieldsIsNotEmpty()) {
+                val newName = productNameET.text.toString()
+                val newWeight = productWeightET.text.toString().toInt()
+                val newPrice = productPriceET.text.toString().toInt()
+                product = Product(name = newName, weight =  newWeight, price =  newPrice)
+                products.add(product!!)
+                db.addProduct(product!!)
 
+                Toast.makeText(this, "$newName, $newWeight и $newPrice добавлены в базу данных", Toast.LENGTH_LONG).show()
+                productNameET.text.clear()
+                productWeightET.text.clear()
+                productPriceET.text.clear()
+                viewDataAdapter()
+            } else {
+                printMessageEmptyFields()
+            }
         }
 
+
+
+    }
+
+    override fun onResume() {
+        super.onResume()
         updateBTN.setOnClickListener {
-            val newName = productNameET.text.toString()
-            val newWeight = productWeightET.text.toString().toInt()
-            val newPrice = productPriceET.text.toString().toInt()
-            val newProduct = Product(id, newName, newWeight, newPrice)
-            db.updateProduct(newProduct)
+            if (checkFieldsIsNotEmpty()) {
+                val newName = productNameET.text.toString()
+                val newWeight = productWeightET.text.toString().toInt()
+                val newPrice = productPriceET.text.toString().toInt()
+                product = Product(name = newName, weight =  newWeight, price =  newPrice)
+                db.updateProduct(product!!)
+            } else {
+                printMessageEmptyFields()
+            }
         }
 
         deleteBTN.setOnClickListener {
-            val newName = productNameET.text.toString()
-            val newWeight = productWeightET.text.toString().toInt()
-            val newPrice = productPriceET.text.toString().toInt()
-            val newProduct = Product(id, newName, newWeight, newPrice)
-            db.deleteProduct(newProduct)
-        }
+            if (checkFieldsIsNotEmpty()) {
 
+                val newName = productNameET.text.toString()
+                val newWeight = productWeightET.text.toString().toInt()
+                val newPrice = productPriceET.text.toString().toInt()
+                product = Product(name = newName, weight =  newWeight, price =  newPrice)
+                db.deleteProduct(product!!)
+            } else {
+                printMessageEmptyFields()
+            }
+        }
+    }
+
+    private fun checkFieldsIsNotEmpty(): Boolean {
+        if (productNameET.text.toString().isNotEmpty() &&
+            productWeightET.text.toString().isNotEmpty() &&
+            productPriceET.text.toString().isNotEmpty()) {
+            return true
+        } else {
+            return false
+        }
+    }
+
+    private fun printMessageEmptyFields() {
+        Toast.makeText(
+            this,
+            getString(R.string.not_all_fields_are_filled_in),
+            Toast.LENGTH_LONG)
+            .show()
+    }
+
+
+    private fun viewDataAdapter() {
+        products = db.readProduct()
+        listAdapter = MyListAdapter(this, products)
+        productListLV.adapter = listAdapter
+        listAdapter?.notifyDataSetChanged()
     }
 
     private fun init() {
@@ -73,8 +122,8 @@ class MainActivity : AppCompatActivity() {
         updateBTN = findViewById(R.id.updateBTN)
         deleteBTN = findViewById(R.id.deleteBTN)
         setSupportActionBar(toolbar)
+        viewDataAdapter()
     }
-
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.main_menu, menu)

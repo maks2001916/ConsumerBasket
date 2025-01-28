@@ -36,7 +36,7 @@ class DBHelper(context: Context):
     fun addProduct(product: Product) {
         val db = this.writableDatabase
         val contentValues = ContentValues()
-        contentValues.put(KEY_ID, product.productId)
+        //contentValues.put(KEY_ID, product.productId)
         contentValues.put(KEY_NAME, product.name)
         contentValues.put(KEY_WEIGHT, product.weight)
         contentValues.put(KEY_PRICE, product.price)
@@ -45,9 +45,9 @@ class DBHelper(context: Context):
     }
 
     @SuppressLint("Range")
-    fun readProduct(product: Product): MutableList<Product> {
+    fun readProduct(): MutableList<Product> {
         val productList: MutableList<Product> = mutableListOf()
-        val selectQuery = "SELECT FROM $TABLE_NAME"
+        val selectQuery = "SELECT * FROM $TABLE_NAME"
         val db = this.readableDatabase
         var cursor: Cursor? = null
         try {
